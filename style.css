@@ -39,6 +39,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 25px;
+  box-shadow: 6px 8px 16px 1px rgba( 51,63,61 , 0.35 ) ;
 }
 
 .display {
@@ -46,6 +47,7 @@ a {
   height: 120px;
   border-radius: 10px;
   background-color: #e7eefc;
+  box-shadow: 1px 1px 10px #333F3D inset;
 }
 
 #btn {
@@ -54,6 +56,7 @@ a {
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
   gap: 8px;
+  text-align: center;
 }
 
 button {
@@ -61,7 +64,7 @@ button {
   outline: none;
   background-color: white;
   height: 65px;
-  font-size: 20px;
+  font-size: 25px;
   color: white;
   border: none;
 }
@@ -80,6 +83,8 @@ button {
 }
 
 .equal {
-  grid-column: 3 / 5;
+  grid-column: 3 / 1;
 	border-radius: 1.9rem;
+  text-align: start;
+  padding-left: 25px;
 }
