@@ -1,6 +1,6 @@
 *, *::after, *::before {
   box-sizing: border-box;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Orbitron', sans-serif;
 }
 
 body {
@@ -14,7 +14,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 619px;
+  height: 615px;
 }
 
 #footer {
@@ -44,10 +44,10 @@ a {
 
 .display {
   width: 300px;
-  height: 120px;
+  height: 80px;
   border-radius: 10px;
   background-color: #e7eefc;
-  box-shadow: 1px 1px 10px #333F3D inset;
+  box-shadow: 1px 1px 6px #333F3D inset;
 }
 
 #btn {
@@ -60,31 +60,44 @@ a {
 }
 
 button {
-  border-radius: 50%;
+  border-radius: 15%;
   outline: none;
   background-color: white;
   height: 65px;
-  font-size: 25px;
   color: white;
   border: none;
+  font-size: 20px;
 }
 
-.num-btn {
+[data-number] {
   background-color: #51595b;
 }
 
-.op-btn {
+[data-operator], [data-equal-btn] {
   background-color: #95b0da;
   font-size: 30px;
 }
 
-.other-btn {
+[data-clear],
+[data-all-clear] {
   background-color: #A9ABB9;
 }
 
-.equal {
+.zeroSign {
   grid-column: 3 / 1;
-	border-radius: 1.9rem;
+	border-radius: 1.0rem;
   text-align: start;
-  padding-left: 25px;
+  padding-left: 30px;
+}
+
+.display {
+  font-size: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.result-dis {
+  margin-right: 10px;
+  margin-bottom: 15px;
 }
