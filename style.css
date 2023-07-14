@@ -48,6 +48,11 @@ a {
   border-radius: 10px;
   background-color: #e7eefc;
   box-shadow: 1px 1px 6px #333F3D inset;
+  margin: 0;
+  vertical-align: bottom;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #btn {
@@ -78,6 +83,10 @@ button {
   font-size: 30px;
 }
 
+[data-operator]:focus {
+  opacity: 0.7;
+}
+
 [data-clear],
 [data-all-clear] {
   background-color: #A9ABB9;
@@ -95,9 +104,11 @@ button {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  color: #333f3d;
 }
 
-.result-dis {
+.result-dis, 
+.operator {
   margin-right: 10px;
   margin-bottom: 15px;
 }

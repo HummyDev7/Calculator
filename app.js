@@ -1,123 +1,120 @@
-//*Selectors
 let numBtn = document.querySelectorAll('[data-number]');
 let opBtn = document.querySelectorAll('[data-operator]');
 let acBtn = document.querySelector('[data-all-clear]');
 let clearBtn = document.querySelector('[data-clear]');
 let displayScreen = document.querySelector('.result-dis');
 let equalBtn = document.querySelector('[data-equal-btn]');
+let opShow = document.querySelector('.operator');
 
-let firstNumber = [];
-let secondNumber = [];
-let operator;
-let opClicked = false;
-let shouldClear = false;
-let currentAnswer;
+let firstOperand = '';
+let secondOperand = '';
+let operator = null;
+let x = false;
 
-//*Functions
-const chooseOperator = function( opVal ) { operator = opVal; console.log( `operator: ${ operator } `);};
+const add = function( numOne, numTwo ) { return numOne + numTwo };
 
-function getFirstNum( firstNumVal ) { firstNumber.push(firstNumVal); console.log(`First number: ${ +firstNumber }`)};
-function getSecondNum ( secondNumVal ) { secondNumber.push(secondNumVal); console.log(`Second number: ${ +secondNumber }`)};
+const subtract = function( numOne, numTwo ) { return numOne - numTwo };
 
-const addOperation = function( numOne, numTwo ) { return numOne + numTwo };
+const divide = function( numOne, numTwo ) { return numOne / numTwo };
 
-const subtractOperation = function( numOne, numTwo ) { return numOne - numTwo };
+const multiply = function( numOne, numTwo ) { return numOne * numTwo };
 
-const divideOperation = function( numOne, numTwo ) { return numOne / numTwo };
+const modulus = function( numOne, numTwo ) { return numOne % numTwo };
 
-const multiplyOperation = function( numOne, numTwo ) { return numOne * numTwo };
+const roundResult = function(number) { return Math.round(number * 1000) / 1000 };
 
-const modulusOperation = function( numOne, numTwo ) { return numOne % numTwo };
-
-const clear = function() {};
-
-const Allclear = function() { 
-  let x = [];
-  displayScreen.textContent = '';
-  firstNumber = x;
-  secondNumber = x;
+const clear = function() {
+  displayScreen.textContent = displayScreen.textContent.toString().slice(0, -1);
 };
 
-const calculation = function( op, noOne, noTwo ) {
+const allClear = function() {
+  displayScreen.textContent = '';
+  firstOperand = '';
+  secondOperand = '';
+  opShow.textContent = '';
+};
+
+const getOperator = function( gettedOp ) {
+  firstOperand = displayScreen.textContent;
+  operator = gettedOp;
+  if ( displayScreen.textContent.length == '') return 
+  opShow.textContent = gettedOp;
+}
+
+const updateDisplay = function(number) {
+  displayScreen.textContent = parseInt(displayScreen.textContent + number).toString();
+};
+
+const evaluate = function() {
+  secondOperand = displayScreen.textContent;
+  displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
+  
+  opShow.textContent = '';
+  //Check if user are dividing 1 with 0 
+  if ( firstOperand == '1' && secondOperand == '0') {
+    displayScreen.textContent = "Error";
+    console.warn('Error');
+  }
+}
+
+const operate = function( op, noOne, noTwo ) {
+
+  let nOne = Number(noOne);
+  let nTwo = Number(noTwo);
 
   let result;
-  let numOne = Number(noOne);
-  let numTwo = Number(noTwo);
 
   switch( op ) {
 
     case '+':
-      result = addOperation( numOne, numTwo );
+      result = add( nOne, nTwo );
       break;
     
     case '−':
-      result = subtractOperation( numOne, numTwo );
+      result = subtract( nOne, nTwo );
       break;
     
     case '÷':
-      result= divideOperation( numOne, numTwo );
+      result = divide( nOne, nTwo );
       break;
     
     case '×':
-      result = multiplyOperation( numOne, numTwo );
+      result = multiply( nOne, nTwo );
       break;
     
     case '%':
-      result = modulusOperation( numOne, numTwo );
+      result = modulus( nOne, nTwo );
     
     default:
       console.error("Symbol is invalid!!!");
       break;
   }
-
+  console.log( result );
   return result;
-};
-
-const updateDisplay = function( value ) {
-  let screenPopulate = displayScreen.textContent;
-
-  if ( screenPopulate.length < 11 ) {
-    if ( value >= 1 ) {
-      displayScreen.textContent = value;
-    } else {
-      displayScreen.textContent = value.join('');
-    }
-  }
-
 };
 
 //*EventListners
 numBtn.forEach( ( numButtons ) => {
   
   numButtons.addEventListener('click', ( e ) => {
-    if ( opClicked ) {
-      secondNumber.push( e.target.value );
-      console.log(secondNumber);
-      updateDisplay(secondNumber);
-
-    } else if ( opClicked == false ) {
-      firstNumber.push( e.target.value );
-      console.log(firstNumber);
-      updateDisplay(firstNumber);
-    }
+    updateDisplay(e.target.textContent);
   });
 });
 
 opBtn.forEach( ( opButtons ) => {
-
+ 
   opButtons.addEventListener('click', ( e ) => {
-    opClicked = true;
-    shouldClear = true;
-    chooseOperator(e.target.value);
+      getOperator(e.target.textContent);
+      displayScreen.textContent = '';
   });
 });
 
-clearBtn.addEventListener('click', () => {});
+clearBtn.addEventListener('click', () => { clear() } );
 
-acBtn.addEventListener('click', () => Allclear() );
+acBtn.addEventListener('click', () => { allClear() });
 
 equalBtn.addEventListener('click', () => { 
-    opClicked = false;
-    currentAnswer = calculation(operator, firstNumber.join(''), secondNumber.join('') );
-    updateDisplay(currentAnswer);
+  //Check if the display screen is empty if empty don't evaluate if not can evaluate
+  if ( displayScreen.textContent.length == '') return 
+  evaluate();
 });
