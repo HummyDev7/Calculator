@@ -34,7 +34,7 @@ a {
   background-color: #333f3d;
   min-width: 340px;
   min-height: 500px;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -44,8 +44,8 @@ a {
 
 .display {
   width: 300px;
-  height: 80px;
-  border-radius: 10px;
+  height: 110px;
+  border-radius: 7px;
   background-color: #e7eefc;
   box-shadow: 1px 1px 6px #333F3D inset;
   margin: 0;
@@ -74,7 +74,8 @@ button {
   font-size: 20px;
 }
 
-[data-number] {
+[data-number],
+[data-decimal] {
   background-color: #51595b;
 }
 
@@ -100,15 +101,21 @@ button {
 }
 
 .display {
-  font-size: 30px;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   color: #333f3d;
 }
 
-.result-dis, 
-.operator {
+.current-operation {
+  font-size: 30px;
   margin-right: 10px;
   margin-bottom: 15px;
+}
+
+.previous-operation {
+  font-size: 20px;
+  margin-bottom: 70px;
+  position: absolute;
+  margin-right: 10px;
 }
