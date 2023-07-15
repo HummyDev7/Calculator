@@ -2,8 +2,10 @@ let numBtn = document.querySelectorAll('[data-number]');
 let opBtn = document.querySelectorAll('[data-operator]');
 let acBtn = document.querySelector('[data-all-clear]');
 let clearBtn = document.querySelector('[data-clear]');
-let displayScreen = document.querySelector('.result-dis');
+let displayScreen = document.querySelector('.current-operation');
 let equalBtn = document.querySelector('[data-equal-btn]');
+let decimal = document.querySelector('[data-decimal]');
+let previousOperation = document.querySelector('.previous-operation');
 
 let firstOperand = '';
 let secondOperand = '';
@@ -29,6 +31,7 @@ const allClear = function() {
   displayScreen.textContent = '0';
   firstOperand = '';
   secondOperand = '';
+  previousOperation.textContent = '';
 };
 
 const setOperator = function( gettedOp ) {
@@ -41,8 +44,8 @@ const updateDisplay = function(number) {
 
 const evaluate = function() {
   secondOperand = displayScreen.textContent;
-  displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
-  
+  let res = displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
+  previousOperation.textContent = `${ firstOperand } ${ operator } ${ secondOperand } = ${ res }`;
   //Check if user are dividing 1 with 0 
   if ( firstOperand == '1' && secondOperand == '0') {
     displayScreen.textContent = "Error";
@@ -100,6 +103,8 @@ opBtn.forEach( ( opButtons ) => {
   opButtons.addEventListener('click', ( e ) => {
     setOperator(e.target.textContent);
     if ( displayScreen.textContent != '0' ) firstOperand = displayScreen.textContent;
+    
+    if ( displayScreen.textContent != '' ) previousOperation.textContent = `${ firstOperand } ${ operator }`;
   });
 });
 
@@ -109,8 +114,5 @@ acBtn.addEventListener('click', () => { allClear() });
 
 equalBtn.addEventListener('click', () => { 
   //Check if the display screen is empty if empty don't evaluate if not can evaluate
-  if ( displayScreen.textContent != '' ) {
-    evaluate();
-  }
-  
+  if ( displayScreen.textContent != '' ) evaluate();
 });
