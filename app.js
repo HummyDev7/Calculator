@@ -4,12 +4,10 @@ let acBtn = document.querySelector('[data-all-clear]');
 let clearBtn = document.querySelector('[data-clear]');
 let displayScreen = document.querySelector('.result-dis');
 let equalBtn = document.querySelector('[data-equal-btn]');
-let opShow = document.querySelector('.operator');
 
 let firstOperand = '';
 let secondOperand = '';
 let operator = null;
-let x = false;
 
 const add = function( numOne, numTwo ) { return numOne + numTwo };
 
@@ -28,28 +26,23 @@ const clear = function() {
 };
 
 const allClear = function() {
-  displayScreen.textContent = '';
+  displayScreen.textContent = '0';
   firstOperand = '';
   secondOperand = '';
-  opShow.textContent = '';
 };
 
-const getOperator = function( gettedOp ) {
-  firstOperand = displayScreen.textContent;
+const setOperator = function( gettedOp ) {
   operator = gettedOp;
-  if ( displayScreen.textContent.length == '') return 
-  opShow.textContent = gettedOp;
 }
 
 const updateDisplay = function(number) {
-  displayScreen.textContent = parseInt(displayScreen.textContent + number).toString();
+  displayScreen.textContent += number;
 };
 
 const evaluate = function() {
   secondOperand = displayScreen.textContent;
   displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
   
-  opShow.textContent = '';
   //Check if user are dividing 1 with 0 
   if ( firstOperand == '1' && secondOperand == '0') {
     displayScreen.textContent = "Error";
@@ -89,23 +82,24 @@ const operate = function( op, noOne, noTwo ) {
       console.error("Symbol is invalid!!!");
       break;
   }
-  console.log( result );
+
   return result;
 };
 
 //*EventListners
 numBtn.forEach( ( numButtons ) => {
-  
   numButtons.addEventListener('click', ( e ) => {
+    //This check if the first operand is empty or not if it is empty then remove the first operand number 
+    if ( firstOperand != '' || displayScreen.textContent == '0' ) displayScreen.textContent = displayScreen.textContent.toString().slice(1, 0);
+
     updateDisplay(e.target.textContent);
   });
 });
 
 opBtn.forEach( ( opButtons ) => {
- 
   opButtons.addEventListener('click', ( e ) => {
-      getOperator(e.target.textContent);
-      displayScreen.textContent = '';
+    setOperator(e.target.textContent);
+    if ( displayScreen.textContent != '0' ) firstOperand = displayScreen.textContent;
   });
 });
 
@@ -115,6 +109,8 @@ acBtn.addEventListener('click', () => { allClear() });
 
 equalBtn.addEventListener('click', () => { 
   //Check if the display screen is empty if empty don't evaluate if not can evaluate
-  if ( displayScreen.textContent.length == '') return 
-  evaluate();
+  if ( displayScreen.textContent != '' ) {
+    evaluate();
+  }
+  
 });
