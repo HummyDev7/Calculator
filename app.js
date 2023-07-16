@@ -10,6 +10,7 @@ let previousOperation = document.querySelector('.previous-operation');
 let firstOperand = '';
 let secondOperand = '';
 let operator = null;
+let removeFirstOperand = false;
 
 const add = function( numOne, numTwo ) { return numOne + numTwo };
 
@@ -36,16 +37,21 @@ const allClear = function() {
 
 const setOperator = function( gettedOp ) {
   operator = gettedOp;
+  removeFirstOperand = true;
 }
 
 const updateDisplay = function(number) {
-  displayScreen.textContent += number;
+  if ( removeFirstOperand ) {
+    displayScreen.textContent = displayScreen.textContent.slice(1, 0);
+    removeFirstOperand = false;
+  }
+  displayScreen.textContent = parseInt(displayScreen.textContent + number).toString();
 };
 
 const evaluate = function() {
   secondOperand = displayScreen.textContent;
-  let res = displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
-  previousOperation.textContent = `${ firstOperand } ${ operator } ${ secondOperand } = ${ res }`;
+  displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
+  previousOperation.textContent = `${ firstOperand } ${ operator } ${ secondOperand } =`;
   //Check if user are dividing 1 with 0 
   if ( firstOperand == '1' && secondOperand == '0') {
     displayScreen.textContent = "Error";
@@ -92,9 +98,6 @@ const operate = function( op, noOne, noTwo ) {
 //*EventListners
 numBtn.forEach( ( numButtons ) => {
   numButtons.addEventListener('click', ( e ) => {
-    //This check if the first operand is empty or not if it is empty then remove the first operand number 
-    if ( firstOperand != '' || displayScreen.textContent == '0' ) displayScreen.textContent = displayScreen.textContent.toString().slice(1, 0);
-
     updateDisplay(e.target.textContent);
   });
 });
@@ -103,8 +106,7 @@ opBtn.forEach( ( opButtons ) => {
   opButtons.addEventListener('click', ( e ) => {
     setOperator(e.target.textContent);
     if ( displayScreen.textContent != '0' ) firstOperand = displayScreen.textContent;
-    
-    if ( displayScreen.textContent != '' ) previousOperation.textContent = `${ firstOperand } ${ operator }`;
+    if ( displayScreen.textContent != '' ) previousOperation.textContent = `${ firstOperand } ${ operator }`
   });
 });
 
@@ -113,6 +115,6 @@ clearBtn.addEventListener('click', () => { clear() } );
 acBtn.addEventListener('click', () => { allClear() });
 
 equalBtn.addEventListener('click', () => { 
-  //Check if the display screen is empty if empty don't evaluate if not can evaluate
+  //Check if the display screen is empty if empty don't evaluate if 
   if ( displayScreen.textContent != '' ) evaluate();
 });
