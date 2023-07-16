@@ -2,10 +2,11 @@ let numBtn = document.querySelectorAll('[data-number]');
 let opBtn = document.querySelectorAll('[data-operator]');
 let acBtn = document.querySelector('[data-all-clear]');
 let clearBtn = document.querySelector('[data-clear]');
-let displayScreen = document.querySelector('.current-operation');
+let currentScreen = document.querySelector('.current-operation');
 let equalBtn = document.querySelector('[data-equal-btn]');
-let previousOperation = document.querySelector('.previous-operation');
+let previousScreen = document.querySelector('.previous-operation');
 let decimal = document.querySelector('[data-decimal]');
+let darkLightMode = document.querySelector('.switch-dark-light');
 
 let firstOperand = '';
 let secondOperand = '';
@@ -25,48 +26,46 @@ const modulus = function( numOne, numTwo ) { return numOne % numTwo };
 const roundResult = function(number) { return Math.round(number * 1000) / 1000 };
 
 const clear = function() {
-  displayScreen.textContent = displayScreen.textContent.toString().slice(0, -1);
+  currentScreen.textContent = currentScreen.textContent.toString().slice(0, -1);
 };
 
 const allClear = function() {
-  displayScreen.textContent = '';
+  currentScreen.textContent = '';
   firstOperand = '';
   secondOperand = '';
-  previousOperation.textContent = '';
+  previousScreen.textContent = '';
 };
 
 const setOperator = function( gettedOp ) {
   operator = gettedOp;
   removeFirstOperand = true;
-  if ( displayScreen.textContent != '' ) previousOperation.textContent = `${ firstOperand } ${ gettedOp }`;
+  if ( currentScreen.textContent != '' ) previousScreen.textContent = `${ firstOperand } ${ gettedOp }`;
 }
 
 const appendDecimal = function() {
-  if ( displayScreen.textContent.indexOf('.') == -1) {
-    displayScreen.textContent += '.';
+  if ( currentScreen.textContent.indexOf('.') == -1) {
+    currentScreen.textContent += '.';
   }
 }
 
 const appendNumber = function(number) {
   if ( removeFirstOperand ) {
-    displayScreen.textContent = displayScreen.textContent.slice(1, 0);
+    currentScreen.textContent = currentScreen.textContent.slice(1, 0);
     removeFirstOperand = false;
   }
-  displayScreen.textContent = displayScreen.textContent + number.toString();  
+  currentScreen.textContent = currentScreen.textContent + number.toString();  
 };
 
 const evaluate = function() {
-  if ( displayScreen.textContent == '' || firstOperand == '') return
-  secondOperand = displayScreen.textContent;
-  let res = displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
-  previousOperation.textContent = `${ firstOperand } ${ operator } ${ secondOperand } =`;
+  if ( currentScreen.textContent == '' || firstOperand == '') return
+  secondOperand = currentScreen.textContent;
+  currentScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
+  previousScreen.textContent = `${ firstOperand } ${ operator } ${ secondOperand } =`;
   //Check if user are dividing 1 with 0 
   if ( firstOperand == '1' && secondOperand == '0') {
-    displayScreen.textContent = "Error";
-    console.warn('Error');
+    currentScreen.textContent = "Error";
+    console.warn('Error you cannot divide 1 and 0');
   }
-
-  return res;
 }
 
 const operate = function( op, noOne, noTwo ) {
@@ -114,7 +113,7 @@ numBtn.forEach( ( numButtons ) => {
 
 opBtn.forEach( ( opButtons ) => {
   opButtons.addEventListener('click', ( e ) => {
-    if ( displayScreen.textContent != '0') firstOperand = displayScreen.textContent;
+    if ( currentScreen.textContent != '0' ) firstOperand = currentScreen.textContent;
     setOperator(e.target.textContent);
   });
 });
@@ -126,3 +125,7 @@ acBtn.addEventListener('click', allClear);
 equalBtn.addEventListener('click', evaluate);
 
 decimal.addEventListener('click', appendDecimal)
+
+darkLightMode.addEventListener('input', function() {
+  document.body.classList.toggle('light');
+});
