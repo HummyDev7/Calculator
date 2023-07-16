@@ -17,6 +17,7 @@ body {
   align-items: center;
   width: 100%;
   height: 615px;
+  gap: 100px;
 }
 
 #footer {
@@ -128,4 +129,61 @@ button:active {
   margin-bottom: 70px;
   position: absolute;
   margin-right: 10px;
+}
+
+
+/*Decalaration for toggle button*/
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  visibility: hidden;
+  display: none;
+}
+
+.slider {
+  position: relative;
+  display: block;
+  width: 45px;
+  height: 20px;
+  background: #e7eefc;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: ease-in 0.5s;
+}
+
+input[type="checkbox"]:checked ~ .slider {
+  background-color: #333F3D;
+}
+
+input[type="checkbox"]:checked ~ .slider::before {
+  transform: translateX(-50px);
+}
+
+input[type="checkbox"]:checked ~ .slider::after {
+  transform: translateX(0px);
+}
+
+.slider:before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: #333f3d;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transition: 0.5s;
+}
+
+.slider:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #c4cbd9;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transition: 0.5s;
+  transform: translateX(50px);
 }
