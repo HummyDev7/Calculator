@@ -4,8 +4,8 @@ let acBtn = document.querySelector('[data-all-clear]');
 let clearBtn = document.querySelector('[data-clear]');
 let displayScreen = document.querySelector('.current-operation');
 let equalBtn = document.querySelector('[data-equal-btn]');
-let decimal = document.querySelector('[data-decimal]');
 let previousOperation = document.querySelector('.previous-operation');
+let decimal = document.querySelector('[data-decimal]');
 
 let firstOperand = '';
 let secondOperand = '';
@@ -29,7 +29,7 @@ const clear = function() {
 };
 
 const allClear = function() {
-  displayScreen.textContent = '0';
+  displayScreen.textContent = '';
   firstOperand = '';
   secondOperand = '';
   previousOperation.textContent = '';
@@ -38,25 +38,35 @@ const allClear = function() {
 const setOperator = function( gettedOp ) {
   operator = gettedOp;
   removeFirstOperand = true;
+  if ( displayScreen.textContent != '' ) previousOperation.textContent = `${ firstOperand } ${ gettedOp }`;
 }
 
-const updateDisplay = function(number) {
+const appendDecimal = function() {
+  if ( displayScreen.textContent.indexOf('.') == -1) {
+    displayScreen.textContent += '.';
+  }
+}
+
+const appendNumber = function(number) {
   if ( removeFirstOperand ) {
     displayScreen.textContent = displayScreen.textContent.slice(1, 0);
     removeFirstOperand = false;
   }
-  displayScreen.textContent = parseInt(displayScreen.textContent + number).toString();
+  displayScreen.textContent = displayScreen.textContent + number.toString();  
 };
 
 const evaluate = function() {
+  if ( displayScreen.textContent == '' || firstOperand == '') return
   secondOperand = displayScreen.textContent;
-  displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
+  let res = displayScreen.textContent = roundResult(operate(operator, firstOperand, secondOperand));
   previousOperation.textContent = `${ firstOperand } ${ operator } ${ secondOperand } =`;
   //Check if user are dividing 1 with 0 
   if ( firstOperand == '1' && secondOperand == '0') {
     displayScreen.textContent = "Error";
     console.warn('Error');
   }
+
+  return res;
 }
 
 const operate = function( op, noOne, noTwo ) {
@@ -98,23 +108,21 @@ const operate = function( op, noOne, noTwo ) {
 //*EventListners
 numBtn.forEach( ( numButtons ) => {
   numButtons.addEventListener('click', ( e ) => {
-    updateDisplay(e.target.textContent);
+    appendNumber(e.target.textContent);
   });
 });
 
 opBtn.forEach( ( opButtons ) => {
   opButtons.addEventListener('click', ( e ) => {
+    if ( displayScreen.textContent != '0') firstOperand = displayScreen.textContent;
     setOperator(e.target.textContent);
-    if ( displayScreen.textContent != '0' ) firstOperand = displayScreen.textContent;
-    if ( displayScreen.textContent != '' ) previousOperation.textContent = `${ firstOperand } ${ operator }`
   });
 });
 
-clearBtn.addEventListener('click', () => { clear() } );
+clearBtn.addEventListener('click', clear);
 
-acBtn.addEventListener('click', () => { allClear() });
+acBtn.addEventListener('click', allClear);
 
-equalBtn.addEventListener('click', () => { 
-  //Check if the display screen is empty if empty don't evaluate if 
-  if ( displayScreen.textContent != '' ) evaluate();
-});
+equalBtn.addEventListener('click', evaluate);
+
+decimal.addEventListener('click', appendDecimal)
