@@ -21,7 +21,7 @@ const divide = function( numOne, numTwo ) { return numOne / numTwo };
 
 const multiply = function( numOne, numTwo ) { return numOne * numTwo };
 
-const modulus = function( numOne, numTwo ) { return numOne % numTwo };
+const remainder = function( numOne, numTwo ) { return numOne % numTwo };
 
 const roundResult = function(number) { return Math.round(number * 1000) / 1000 };
 
@@ -95,7 +95,7 @@ const operate = function( op, noOne, noTwo ) {
       break;
     
     case '%':
-      result = modulus( nOne, nTwo );
+      result = remainder( nOne, nTwo );
     
     default:
       console.error("Symbol is invalid!!!");
@@ -105,22 +105,40 @@ const operate = function( op, noOne, noTwo ) {
   return result;
 };
 
+//Responsible for converting the operator to proper symbol to match the symbol on the calculator
 const checkOp = function( opToConvert ) {
-  if ( opToConvert == "*") return "×";
-  if ( opToConvert == "/") return "÷";
-  if ( opToConvert == "-") return "−"
-  if ( opToConvert == "+") return "+";
-  if ( opToConvert == "%") return "%";
+
+  switch ( opToConvert ) {
+    case "*":
+      return "x";
+    case "/":
+      return "÷";
+    case "-":
+      return "−";
+    case "+":
+      return "+";
+    case "%":
+      return "%";
+    default:
+      alert('Error invalid operator');
+  }
 }
 
 const keyboardSupport = function( keyCode ) {
 
   const keyId = keyCode.key;
-  if ( keyId >= 0 && keyId <= 9 ) appendNumber( keyId );
-
-  if ( keyId == "+" || keyId == "/" || keyId == "-" || keyId == "*" || keyId == "%" ) setOperator(checkOp(keyId));
   
-  switch( keyId ) {
+  if ( keyId >= 0 && keyId <= 9 ) appendNumber( keyId )
+
+  switch ( keyId ) {
+
+    case "+":
+    case "/":
+    case "-":
+    case "*":
+    case "%":
+      setOperator( checkOp(keyId) );
+      break;
 
     case "Backspace":
       clear();
@@ -131,16 +149,13 @@ const keyboardSupport = function( keyCode ) {
       break;
 
     case "=":
+    case "Enter":
       evaluate();
       break;
 
     case ".":
       appendDecimal();
       break;   
-    
-    case "Enter":
-      evaluate();
-      break;
   }
 }
 
@@ -165,9 +180,7 @@ equalBtn.addEventListener('click', evaluate);
 
 decimal.addEventListener('click', appendDecimal)
 
-darkLightMode.addEventListener('input', function() {
-  document.body.classList.toggle('light');
-});
+darkLightMode.addEventListener('input', () => document.body.classList.toggle('light') );
 
 //Keyboard support 
 document.addEventListener('keydown', ( e ) => keyboardSupport( e ) );
