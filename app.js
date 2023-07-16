@@ -37,6 +37,7 @@ const allClear = function() {
 };
 
 const setOperator = function( gettedOp ) {
+  if ( currentScreen.textContent != '0' ) firstOperand = currentScreen.textContent;
   operator = gettedOp;
   removeFirstOperand = true;
   if ( currentScreen.textContent != '' ) previousScreen.textContent = `${ firstOperand } ${ gettedOp }`;
@@ -104,6 +105,45 @@ const operate = function( op, noOne, noTwo ) {
   return result;
 };
 
+const checkOp = function( opToConvert ) {
+  if ( opToConvert == "*") return "×";
+  if ( opToConvert == "/") return "÷";
+  if ( opToConvert == "-") return "−"
+  if ( opToConvert == "+") return "+";
+  if ( opToConvert == "%") return "%";
+}
+
+const keyboardSupport = function( keyCode ) {
+
+  const keyId = keyCode.key;
+  if ( keyId >= 0 && keyId <= 9 ) appendNumber( keyId );
+
+  if ( keyId == "+" || keyId == "/" || keyId == "-" || keyId == "*" || keyId == "%" ) setOperator(checkOp(keyId));
+  
+  switch( keyId ) {
+
+    case "Backspace":
+      clear();
+      break;
+
+    case "c":
+      allClear();
+      break;
+
+    case "=":
+      evaluate();
+      break;
+
+    case ".":
+      appendDecimal();
+      break;   
+    
+    case "Enter":
+      evaluate();
+      break;
+  }
+}
+
 //*EventListners
 numBtn.forEach( ( numButtons ) => {
   numButtons.addEventListener('click', ( e ) => {
@@ -113,7 +153,6 @@ numBtn.forEach( ( numButtons ) => {
 
 opBtn.forEach( ( opButtons ) => {
   opButtons.addEventListener('click', ( e ) => {
-    if ( currentScreen.textContent != '0' ) firstOperand = currentScreen.textContent;
     setOperator(e.target.textContent);
   });
 });
@@ -129,3 +168,6 @@ decimal.addEventListener('click', appendDecimal)
 darkLightMode.addEventListener('input', function() {
   document.body.classList.toggle('light');
 });
+
+//Keyboard support 
+document.addEventListener('keydown', ( e ) => keyboardSupport( e ) );
