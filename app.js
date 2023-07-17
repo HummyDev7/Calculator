@@ -165,6 +165,9 @@ const keyboardSupport = function( keyCode ) {
     case ".":
       appendDecimal();
       break;   
+    
+    case "Enter":
+      return;
   }
 }
 
