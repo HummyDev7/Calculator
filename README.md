@@ -1,6 +1,8 @@
 # The Odin Project | Calculator Project
 
 * This project is the last project of the foundation course (The odin project)
+  
+*  Color Pallete - Credits to Pana Chanthabandith
 
 * Live <a href="https://hummydev7.github.io/Calculator/">demo</a>
 
@@ -37,8 +39,6 @@
 
 * Dark and Light Mode
 * Keyboard Support
-
-
 
 
 
