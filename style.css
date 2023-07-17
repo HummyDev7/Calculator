@@ -25,17 +25,19 @@ body {
   justify-content: center;
 }
 
-a { color: #51595b; text-decoration: none; }
+a, .divider { color: #51595b; text-decoration: none; }
 
 .calculator-container {
   background-color: #353f3e;
   min-width: 340px;
   min-height: 500px;
-  border-radius: 15px;
+  border-radius: 12px;
   padding: 30px;
   display: flex;
   flex-direction: column;
   gap: 25px;
+  box-shadow: 5px 5px 1px 1px rgba( 239 ,240, 235 , 1 ) ;
+  transform: rotate(-1deg);
 }
 
 .display {
@@ -113,7 +115,7 @@ input[type="checkbox"] {
   display: block;
   width: 45px;
   height: 20px;
-  background: #e7eefc;
+  background: #c4cbd9;
   cursor: pointer;
   border-radius: 10px;
   overflow: hidden;
@@ -128,7 +130,7 @@ input[type="checkbox"]:checked ~ .slider::after { transform: translateY(0px); }
   content: '';
   position: absolute;
   inset: 2px 2px;
-  background: #333f3d;
+  background: #1d1d1d;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -139,7 +141,7 @@ input[type="checkbox"]:checked ~ .slider::after { transform: translateY(0px); }
   content: '';
   position: absolute;
   inset: 2px 2px;
-  background: #c4cbd9;
+  background: #ffffff;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -152,6 +154,9 @@ input[type="checkbox"]:checked ~ .slider::after { transform: translateY(0px); }
 .light .num { background-color: #8e8fa1; }
 .light .other { background-color: #94b2de; }
 .light .op { background-color: #dbedff; }
-.light .calculator-container { background-color: #ffffff; }
+.light .calculator-container { 
+  background-color: #ffffff; 
+  box-shadow: 5px 5px 1px 2px rgba( 29, 29, 29, 1 );
+}
 .light .display { background-color: #f6f6f6; }
 .light button:hover { background-color: rgba(80, 90, 90, .40); }

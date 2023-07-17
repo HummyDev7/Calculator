@@ -120,7 +120,7 @@ const checkOp = function( opToConvert ) {
 
   switch ( opToConvert ) {
     case "*":
-      return "x";
+      return "×";
     case "/":
       return "÷";
     case "-":
@@ -154,7 +154,7 @@ const keyboardSupport = function( keyCode ) {
       clear();
       break;
 
-    case "c":
+    case "Delete":
       allClear();
       break;
 
