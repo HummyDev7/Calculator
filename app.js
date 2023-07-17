@@ -159,7 +159,6 @@ const keyboardSupport = function( keyCode ) {
       break;
 
     case "=":
-    case "Enter":
       evaluate();
       break;
 
