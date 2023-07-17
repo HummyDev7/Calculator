@@ -30,6 +30,7 @@ const roundResult = function(number) { return Math.round(number * 1000) / 1000 }
 const clear = function() {
   currentScreen.textContent = currentScreen.textContent.toString().slice(0, -1);
   btnSoundEffect.play();
+  btnSoundEffect.playbackRate = 1.8;
 };
 
 const allClear = function() {
@@ -62,6 +63,7 @@ const appendNumber = function(number) {
   }
   currentScreen.textContent = currentScreen.textContent + number.toString();  
   btnSoundEffect.play();
+  btnSoundEffect.playbackRate = 1.8;
 };
 
 const evaluate = function() {
