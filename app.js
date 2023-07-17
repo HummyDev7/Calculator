@@ -13,6 +13,8 @@ let secondOperand = '';
 let operator = null;
 let removeFirstOperand = false;
 
+let btnSoundEffect = new Audio('assets/buttonSoundEffect.wav');
+
 const add = function( numOne, numTwo ) { return numOne + numTwo };
 
 const subtract = function( numOne, numTwo ) { return numOne - numTwo };
@@ -27,6 +29,7 @@ const roundResult = function(number) { return Math.round(number * 1000) / 1000 }
 
 const clear = function() {
   currentScreen.textContent = currentScreen.textContent.toString().slice(0, -1);
+  btnSoundEffect.play();
 };
 
 const allClear = function() {
@@ -34,6 +37,7 @@ const allClear = function() {
   firstOperand = '';
   secondOperand = '';
   previousScreen.textContent = '';
+  btnSoundEffect.play();
 };
 
 const setOperator = function( gettedOp ) {
@@ -41,12 +45,14 @@ const setOperator = function( gettedOp ) {
   operator = gettedOp;
   removeFirstOperand = true;
   if ( currentScreen.textContent != '' ) previousScreen.textContent = `${ firstOperand } ${ gettedOp }`;
+  btnSoundEffect.play();
 }
 
 const appendDecimal = function() {
   if ( currentScreen.textContent.indexOf('.') == -1) {
     currentScreen.textContent += '.';
   }
+  btnSoundEffect.play();
 }
 
 const appendNumber = function(number) {
@@ -55,6 +61,7 @@ const appendNumber = function(number) {
     removeFirstOperand = false;
   }
   currentScreen.textContent = currentScreen.textContent + number.toString();  
+  btnSoundEffect.play();
 };
 
 const evaluate = function() {
@@ -67,6 +74,7 @@ const evaluate = function() {
     currentScreen.textContent = "Error";
     console.warn('Error you cannot divide 1 and 0');
   }
+  btnSoundEffect.play();
 }
 
 const operate = function( op, noOne, noTwo ) {
